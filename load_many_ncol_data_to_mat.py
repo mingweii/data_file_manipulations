@@ -37,17 +37,28 @@ print("Number of files loaded: "+str(n))
 
 #load the first data and get the dimension of the matrix
 #matrix (# of files, # of rows, # of columns)
-data1=np.loadtxt(root.filename)
-matrix=np.zeros([n,data1.shape[0],data1.shape[1]],dtype=float)
-matrix[0,:,:]=data1
-#load the rest files
+
 from printProgressBar import *
 
 printProgressBar(0, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
-for i in range(1,n):
-    temp=np.loadtxt(directory+file_name+str(i+1)+ext)
-    matrix[i,:,:]=temp
-    printProgressBar(i+1, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
+
+data1=np.loadtxt(root.filename)
+saiz=len(data1.shape);
+if saiz==1:
+    matrix=np.zeros([n,data1.shape[0]],dtype=float)
+    matrix[0,:]=data1
+    for i in range(1,n):
+        temp=np.loadtxt(directory+file_name+str(i+1)+ext)
+        matrix[i,:]=temp
+        printProgressBar(i+1, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
+
+else:
+    matrix=np.zeros([n,data1.shape[0],data1.shape[1]],dtype=float)
+    matrix[0,:,:]=data1
+    for i in range(1,n):
+        temp=np.loadtxt(directory+file_name+str(i+1)+ext)
+        matrix[i,:,:]=temp
+        printProgressBar(i+1, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
 #save the .mat files for MATLAB
 savemat(file_name+'.mat',mdict={'matrix':matrix})
 print(matrix.shape)

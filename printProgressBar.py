@@ -1,3 +1,4 @@
+# Author: aubricus on github
 # -*- coding: utf-8 -*-
 import sys
 # Print iterations progress
