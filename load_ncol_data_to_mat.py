@@ -38,20 +38,21 @@ print("There are "+ str(n)+ " "+ext+" files in this directory starting with "+ p
 from printProgressBar import *
 
 printProgressBar(0, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
-data1=np.loadtxt(root.filename,skiprows=4,usecols=2)
+data1=np.loadtxt(root.filename,skiprows=5,usecols=2)
 if data1.ndim==1:
     matrix=np.empty([data1.shape[0],1,n])
     for i in range(0,n):
-        temp=np.loadtxt(prefix+str(i)+ext,skiprows=4,usecols=2)
+        temp=np.loadtxt(prefix+str(i)+ext,skiprows=5,usecols=2)
         matrix[:,0,i]=temp
         printProgressBar(i, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
 else:
     matrix=np.empty([data1.shape[0],data1.shape[1],n])
     for i in range(0,n):
-        temp=np.loadtxt(prefix+str(i)+ext,skiprows=4,usecols=2)
+        temp=np.loadtxt(prefix+str(i)+ext,skiprows=5,usecols=2)
         matrix[:,:,i]=temp
         printProgressBar(i, n, prefix = 'Progress:', suffix = 'Complete', bar_length = 50)
 #save the .mat files for MATLAB
+matrix=np.squeeze(matrix)
 savemat(prefix+'.mat',mdict={'matrix':matrix})
 print("\n")
 print(matrix.shape)

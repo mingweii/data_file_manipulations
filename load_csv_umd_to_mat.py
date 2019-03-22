@@ -22,7 +22,8 @@ print(directory)
 first, ext=os.path.splitext(root.filename)
 #a list of files under this directory
 all_f=glob(directory+r'*'+ext)
-all_files=sorted(all_f)
+all_files=sorted(all_f,key=os.path.getmtime)
+#all_files=sorted(all_f,key=os.path.basename)
 prefix = os.path.basename(os.path.commonprefix(all_files))
 
 print("There are "+ str(len(all_files))+" "+ext+" files in this directory starting with "+prefix)
@@ -30,13 +31,15 @@ print("There are "+ str(len(all_files))+" "+ext+" files in this directory starti
 #load the first data and get the dimension of the matrix
 #matrix (# of rows, # of columns, # of files)
 
-data1=np.loadtxt(root.filename,delimiter=',',skiprows=54,usecols=(2,3,4,5))
+data1=np.loadtxt(root.filename,delimiter=',',skiprows=54,usecols=(2,3,4,5))# check the columns
 saiz=[data1.shape[0],data1.shape[1],len(all_files)]
 matrix=np.empty(saiz)
+print(saiz)
 index=0
 for files in all_files:
-    temp=np.loadtxt(files,delimiter=',',skiprows=54,usecols=(2,3,4,5))
+    temp=np.loadtxt(files,delimiter=',',skiprows=54,usecols=(2,3,4,5))# check the columns
     matrix[:,:,index]=temp
+    print(str(files))
     index=index+1
 #save the .mat files for MATLAB
 savemat(prefix+'.mat',mdict={'matrix':matrix})
