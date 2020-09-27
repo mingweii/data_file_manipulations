@@ -1,10 +1,14 @@
-
+# load_csv_to_mat: 
+# - load multiple .csv files in a directory. Some number of rows can be skipped and only selected columns are loaded.
+# - save as a mat file
+# merge_multiple_mat:
+# - load multiple .mat files and merge them into a single .mat file (default) or .h5 file.
 import os
 import numpy as np
 #import matplotlib.pyplot as plt
 from scipy.io import loadmat, savemat
 import h5py
-#from tkinter import filedialog
+
 
 def load_csv_to_mat(directory,nskiprows,usecols_list):
     from glob import glob
