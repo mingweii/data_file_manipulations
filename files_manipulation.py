@@ -1,4 +1,4 @@
-# load_csv_to_mat: 
+# load_csv_to_mat:
 # - load multiple .csv files in a directory. Some number of rows can be skipped and only selected columns are loaded.
 # - save as a mat file
 # merge_multiple_mat:
@@ -13,7 +13,8 @@ import h5py
 def load_csv_to_mat(directory,nskiprows,usecols_list):
     from glob import glob
     import re
-    #directory=directory+'/' # Change the orientation of the slash for Windows or Mac systems
+    if not directory.endswith('/'):
+        directory=directory+'/' # Change the orientation of the slash for Windows or Mac systems
 #a list of files under this directory
     all_f=glob(directory+r'*.csv')
     all_files=sorted(all_f,key=os.path.getmtime) #sort the file list by modified time.
