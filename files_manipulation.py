@@ -3,9 +3,9 @@
 # - save as a mat file
 # merge_multiple_mat:
 # - load multiple .mat files and merge them into a single .mat file (default) or .h5 file.
+
 import os
 import numpy as np
-#import matplotlib.pyplot as plt
 from scipy.io import loadmat, savemat
 import h5py
 
@@ -45,7 +45,7 @@ def merge_multiple_mat(dataDir,save_to_h5=False):
 
     sorted_file_list=sorted(os.listdir(dataDir)) # sort the file list first by name
     for file in sorted_file_list:
-        if not file=='merged.mat' and not file=='merged.h5' :
+        if (not file=='merged.mat') and file.endswith('.mat') :
             d=loadmat(dataDir+file)
             if merged_data=={}:
                 merged_data=d.copy()
@@ -57,10 +57,8 @@ def merge_multiple_mat(dataDir,save_to_h5=False):
             else:
                 for i in d.keys() and merged_data.keys():
                     d[i]=np.round(np.squeeze(d[i]),10)
-                    if np.array_equal(merged_data[i],d[i]) and (d[i]).ndim==1 and len(d[i])>1 :
+                    if not (np.array_equal(merged_data[i],d[i]) and (d[i]).ndim==1 and len(d[i])>1) :
                             # Only check 1D array with multiple elements.
-                        merged_data[i]=merged_data[i]
-                    else:
                         merged_data[i]=np.dstack((merged_data[i],d[i]))
     for i in merged_data.keys():
 
@@ -74,4 +72,4 @@ def merge_multiple_mat(dataDir,save_to_h5=False):
         with h5py.File(dataDir+"merged.h5", 'w') as fd:
             for i in merged_data.keys():
                 fd[i] = merged_data[i]
-            fd.close()
+        fd.close()
