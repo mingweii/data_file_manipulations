@@ -21,7 +21,9 @@ directory=directory+'/' # Change the orientation of the slash for Windows or Mac
 print(directory)
 first, ext=os.path.splitext(root.filename)
 #a list of files under this directory
-all_files=glob(directory+r'*'+ext)
+all_f=glob(directory+r'*'+ext)
+all_files=sorted(all_f,key=os.path.getmtime) #sort the file list by modified time.
+
 prefix = os.path.basename(os.path.commonprefix(all_files))
 
 print("There are "+ str(len(all_files))+" "+ext+" files in this directory starting with "+prefix)
